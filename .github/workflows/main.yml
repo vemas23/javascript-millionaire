@@ -9,10 +9,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18 # Specify the Node.js version
+          cache: 'pnpm' # Enable caching for pnpm
+
       - name: Install dependencies
         run: pnpm install
 
       - name: Build
         run: pnpm build
 
-      - run: pnpx pkg-pr-new publish
+      - name: Publish
+        run: pnpx pkg-pr-new publish
