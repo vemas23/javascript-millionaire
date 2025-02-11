@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-
 // /*
 // /$$$$$$$$ /$$$$$$ / $$$$$$$ / $$$$$$$$ / $$$$$$ / $$ / $$ / $$$$$$ / $$$$$$$ / $$
 // | $$_____/|_  $$_/| $$__  $$| $$_____/ /$$__  $$| $$  | $$|_  $$_/| $$__  $$|__/
@@ -12,7 +11,6 @@
 // |__/      |______/|__/  |__/|________/ \______/ |__/  |__/|______/|__/|__/  |__/ \______/
 // */
 
-
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 import gradient from 'gradient-string';
@@ -20,139 +18,139 @@ import chalkAnimation from 'chalk-animation';
 import figlet from 'figlet';
 import { createSpinner } from 'nanospinner';
 
-let playerName;
+let spielerName;
 
-const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
+const schlafen = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 
-async function welcome() {
-  const rainbowTitle = chalkAnimation.rainbow(
-    'Who Wants To Be A JavaScript Millionaire? \n'
+async function willkommen() {
+  const regenbogenTitel = chalkAnimation.rainbow(
+    'Wer wird JavaScript-Millionär? \n'
   );
 
-  await sleep();
-  rainbowTitle.stop();
+  await schlafen();
+  regenbogenTitel.stop();
 
   console.log(`
-    ${chalk.bgBlue('HOW TO PLAY')} 
-    I am a process on your computer.
-    If you get any question wrong I will be ${chalk.bgRed('killed')}
-    So get all the questions right...
+    ${chalk.bgBlue('SO WIRD GESPIELT')} 
+    Ich bin ein Prozess auf deinem Computer.
+    Wenn du eine Frage falsch beantwortest, werde ich ${chalk.bgRed('beendet')}
+    Also beantworte alle Fragen richtig...
 
   `);
 }
 
-async function handleAnswer(isCorrect) {
-  const spinner = createSpinner('Checking answer...').start();
-  await sleep();
+async function prüfeAntwort(istKorrekt) {
+  const spinner = createSpinner('Antwort wird überprüft...').start();
+  await schlafen();
 
-  if (isCorrect) {
-    spinner.success({ text: `Nice work ${playerName}. That's a legit answer` });
+  if (istKorrekt) {
+    spinner.success({ text: `Gut gemacht, ${spielerName}. Das ist die richtige Antwort!` });
   } else {
-    spinner.error({ text: `💀💀💀💀💀💀💀💀💀💀💀💀 Game over, you lose ${playerName}!` });
+    spinner.error({ text: `💀💀💀💀💀💀💀💀💀💀💀💀 Spiel vorbei, du hast verloren, ${spielerName}!` });
     process.exit(1);
   }
 }
 
-async function askName() {
-  const answers = await inquirer.prompt({
-    name: 'player_name',
+async function frageName() {
+  const antworten = await inquirer.prompt({
+    name: 'spieler_name',
     type: 'input',
-    message: 'What is your name?',
+    message: 'Wie heißt du?',
     default() {
-      return 'Player';
+      return 'Spieler';
     },
   });
 
-  playerName = answers.player_name;
+  spielerName = antworten.spieler_name;
 }
 
-function winner() {
+function gewinner() {
   console.clear();
-  figlet(`Congrats , ${playerName} !\n $ 1 , 0 0 0 , 0 0 0`, (err, data) => {
+  figlet(`Glückwunsch, ${spielerName} !\n $ 1 , 0 0 0 , 0 0 0`, (err, data) => {
     console.log(gradient.pastel.multiline(data) + '\n');
 
     console.log(
       chalk.green(
-        `Programming isn't about what you know; it's about making the command line look cool`
+        `Programmieren geht nicht darum, was du weißt, sondern darum, das Terminal cool aussehen zu lassen!`
       )
     );
     process.exit(0);
   });
 }
 
-async function question1() {
-  const answers = await inquirer.prompt({
-    name: 'question_1',
+async function frage1() {
+  const antworten = await inquirer.prompt({
+    name: 'frage_1',
     type: 'list',
-    message: 'JavaScript was created in 10 days then released on\n',
+    message: 'JavaScript wurde in 10 Tagen erstellt und dann veröffentlicht am\n',
     choices: [
-      'May 23rd, 1995',
-      'Nov 24th, 1995',
-      'Dec 4th, 1995',
-      'Dec 17, 1996',
+      '23. Mai 1995',
+      '24. Nov 1995',
+      '4. Dez 1995',
+      '17. Dez 1996',
     ],
   });
 
-  return handleAnswer(answers.question_1 === 'Dec 4th, 1995');
+  return prüfeAntwort(antworten.frage_1 === '4. Dez 1995');
 }
 
-async function question2() {
-  const answers = await inquirer.prompt({
-    name: 'question_2',
+async function frage2() {
+  const antworten = await inquirer.prompt({
+    name: 'frage_2',
     type: 'list',
-    message: 'What is x? var x = 1_1 + "1" + Number(1)\n',
+    message: 'Was ist x? var x = 1_1 + "1" + Number(1)\n',
     choices: ['4', '"4"', '"1111"', '69420'],
   });
-  return handleAnswer(answers.question_2 === '"1111"');
+  return prüfeAntwort(antworten.frage_2 === '"1111"');
 }
 
-async function question3() {
-  const answers = await inquirer.prompt({
-    name: 'question_3',
+async function frage3() {
+  const antworten = await inquirer.prompt({
+    name: 'frage_3',
     type: 'list',
-    message: `What is the first element in the array? ['🐏', '🦙', '🐍'].length = 0\n`,
+    message: `Was ist das erste Element im Array? ['🐏', '🦙', '🐍'].length = 0\n`,
     choices: ['0', '🐏', '🐍', 'undefined'],
   });
 
-  return handleAnswer(answers.question_3 === 'undefined');
+  return prüfeAntwort(antworten.frage_3 === 'undefined');
 }
 
-async function question4() {
-  const answers = await inquirer.prompt({
-    name: 'question_4',
+async function frage4() {
+  const antworten = await inquirer.prompt({
+    name: 'frage_4',
     type: 'list',
-    message: 'Which of the following is NOT a primitive type?\n',
+    message: 'Welche der folgenden ist KEIN primitiver Datentyp?\n',
     choices: [
       'boolean',
       'number',
       'null',
-      'object', // Correct
+      'object', // Korrekt
     ],
   });
-  return handleAnswer(answers.question_4 === 'object');
+  return prüfeAntwort(antworten.frage_4 === 'object');
 }
 
-async function question5() {
-  const answers = await inquirer.prompt({
-    name: 'question_5',
+async function frage5() {
+  const antworten = await inquirer.prompt({
+    name: 'frage_5',
     type: 'list',
     message:
-      'JS is a high-level single-threaded, garbage-collected,\n' +
-      'interpreted(or just-in-time compiled), prototype-based,\n' +
-      'multi-paradigm, dynamic language with a ____ event loop\n',
-    choices: ['multi-threaded', 'non-blocking', 'synchronous', 'promise-based'],
+      'JS ist eine hochstufige, einsträngige, speicherbereinigende,\n' +
+      'interpretierte (oder just-in-time kompilierte), prototypbasierte,\n' +
+      'multi-paradigmatische, dynamische Sprache mit einer ____ Ereignisschleife\n',
+    choices: ['mehrsträngig', 'nicht-blockierend', 'synchron', 'versprechensbasiert'],
   });
 
-  return handleAnswer(answers.question_5 === 'non-blocking');
+  return prüfeAntwort(antworten.frage_5 === 'nicht-blockierend');
 }
 
-// Run it with top-level await
+// Starte das Spiel mit top-level await
 console.clear();
-await welcome();
-await askName();
-await question1();
-await question2();
-await question3();
-await question4();
-await question5();
-winner();
+await willkommen();
+await frageName();
+await frage1();
+await frage2();
+await frage3();
+await frage4();
+await frage5();
+gewinner();
